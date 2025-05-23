@@ -126,7 +126,8 @@ enum MeetingStatus {
 }
 
 model Post {
-  id    Int    @id @default(autoincrement())
-  name  String
-
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now()) 
 }
+
