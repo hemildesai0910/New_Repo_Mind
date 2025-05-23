@@ -76,19 +76,79 @@
 
 // export default CardDetail
 
-import React from 'react'
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+// import React from 'react'
+// import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
+// import { Button } from '@/components/ui/button'
 
-// Renamed component to follow PascalCase convention
-const CardDetail = ({ prop }) => {
-  // Destructuring data and name from prop
-  const { data, name } = prop;
+// // Renamed component to follow PascalCase convention
+// const CardDetail = ({ prop }) => {
+//   // Destructuring data and name from prop
+//   const { data, name } = prop;
   
-  // Assuming setOpen is a state setter from parent or defined elsewhere
-  const setOpen = () => {
-    // Implementation depends on how you want to handle this
-    console.log('Opening details...');
+//   // Assuming setOpen is a state setter from parent or defined elsewhere
+//   const setOpen = () => {
+//     // Implementation depends on how you want to handle this
+//     console.log('Opening details...');
+//   };
+
+//   return (
+//     <div className="bg-gradient-to-br from-blue-300 via-purple-400 to-blue-500 p-4">
+//       <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl transition-all duration-200 hover:scale-105">
+//         <Card className="border-0 bg-white/90 backdrop-blur-sm rounded-3xl">
+//           <CardHeader>
+//             <CardTitle className="text-gray-800">
+//               {name}
+//             </CardTitle>
+//             <div className="border-b border-gray-200/50 my-2"></div>
+//             <CardDescription>
+//               <div className="flex flex-wrap gap-2">
+//                 {data && data.map((item, index) => (
+//                   <p key={index} className="text-gray-600">
+//                     {item}
+//                   </p>
+//                 ))}
+//               </div>
+//             </CardDescription>
+//           </CardHeader>
+//           <CardContent className="pt-0">
+//             <Button 
+//               onClick={() => setOpen(true)}
+//               className="w-full bg-gradient-to-r from-blue-400 to-purple-500 border-0 text-white hover:from-blue-500 hover:to-purple-600 transition-all duration-200"
+//             >
+//               Details
+//             </Button>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default CardDetail
+
+import React from 'react';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+
+interface CardDetailProps {
+  prop: {
+    name: string;
+    data: string[];
+  };
+}
+
+const CardDetail: React.FC<CardDetailProps> = ({ prop }) => {
+  const { data, name } = prop;
+
+  const setOpen = (open: boolean) => {
+    console.log('Opening details...', open);
+    // Replace this with actual open logic if needed
   };
 
   return (
@@ -96,13 +156,11 @@ const CardDetail = ({ prop }) => {
       <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl transition-all duration-200 hover:scale-105">
         <Card className="border-0 bg-white/90 backdrop-blur-sm rounded-3xl">
           <CardHeader>
-            <CardTitle className="text-gray-800">
-              {name}
-            </CardTitle>
-            <div className="border-b border-gray-200/50 my-2"></div>
+            <CardTitle className="text-gray-800">{name}</CardTitle>
+            <div className="border-b border-gray-200/50 my-2" />
             <CardDescription>
               <div className="flex flex-wrap gap-2">
-                {data && data.map((item, index) => (
+                {data?.map((item, index) => (
                   <p key={index} className="text-gray-600">
                     {item}
                   </p>
@@ -111,7 +169,7 @@ const CardDetail = ({ prop }) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
-            <Button 
+            <Button
               onClick={() => setOpen(true)}
               className="w-full bg-gradient-to-r from-blue-400 to-purple-500 border-0 text-white hover:from-blue-500 hover:to-purple-600 transition-all duration-200"
             >
@@ -121,7 +179,7 @@ const CardDetail = ({ prop }) => {
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CardDetail
+export default CardDetail;
