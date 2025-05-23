@@ -114,21 +114,21 @@
 //   );
 // }
 
-
 "use client";
 
 import { useState } from "react";
 import Cardetail from './carddetail';
 
 export default function RepoTreeFetcher() {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
   const [summary, setSummary] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0] ?? null;
+  setFile(file);
+};
 
   const uploadFile = async () => {
     if (!file) {
@@ -152,7 +152,7 @@ export default function RepoTreeFetcher() {
       const data = await response.json();
       if (response.ok) {
         setSummary(data);
-        console.log(summary?.entities?.dates);
+        console.log(data?.entities?.dates);
       } else {
         setError(data.error || "Failed to process file.");
       }
@@ -166,14 +166,13 @@ export default function RepoTreeFetcher() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-300 via-purple-400 to-blue-500 py-8">
       <div className="max-w-7xl mx-auto p-6">
-        {/* Header Container */}
+
         <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl mb-8">
           <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-6">
             <h1 className="text-2xl font-bold text-gray-800">Upload and Analyze File</h1>
           </div>
         </div>
-        
-        {/* Upload Form Container */}
+
         <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl mb-8">
           <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-6">
             <div className="flex flex-col md:flex-row gap-4 items-end">
@@ -206,7 +205,6 @@ export default function RepoTreeFetcher() {
 
         {summary !== null && (
           <>
-            {/* Results Header */}
             <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl mb-8">
               <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-6">
                 <h2 className="text-2xl font-semibold text-gray-800 text-center">
@@ -215,76 +213,68 @@ export default function RepoTreeFetcher() {
               </div>
             </div>
 
-            {/* Results Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Entities Card */}
               <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl">
                 <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-6 h-full">
-                  {summary.entities.dates.length !== 0 && (
-                    <>
-                      <div className="mb-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Dates</h3>
-                        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
-                          <div className="flex flex-wrap gap-2">
-                            {summary.entities.dates.map((keyword, index) => (
-                              <span
-                                key={index}
-                                className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
-                              >
-                                {keyword}
-                              </span>
-                            ))}
-                          </div>
+                  {summary.entities.dates.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Dates</h3>
+                      <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
+                        <div className="flex flex-wrap gap-2">
+                          {summary.entities.dates.map((keyword: string, index: number) => (
+                            <span
+                              key={index}
+                              className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
+                            >
+                              {keyword}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
 
-                  {summary.entities.locations.length !== 0 && (
-                    <>
-                      <div className="mb-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Locations</h3>
-                        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
-                          <div className="flex flex-wrap gap-2">
-                            {summary.entities.locations.map((keyword, index) => (
-                              <span
-                                key={index}
-                                className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
-                              >
-                                {keyword}
-                              </span>
-                            ))}
-                          </div>
+                  {summary.entities.locations.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Locations</h3>
+                      <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
+                        <div className="flex flex-wrap gap-2">
+                          {summary.entities.locations.map((keyword: string, index: number) => (
+                            <span
+                              key={index}
+                              className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
+                            >
+                              {keyword}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
 
-                  {summary.entities.organizations.length !== 0 && (
-                    <>
-                      <div className="mb-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Organizations</h3>
-                        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
-                          <div className="flex flex-wrap gap-2">
-                            {summary.entities.organizations.map((keyword, index) => (
-                              <span
-                                key={index}
-                                className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
-                              >
-                                {keyword}
-                              </span>
-                            ))}
-                          </div>
+                  {summary.entities.organizations.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Organizations</h3>
+                      <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
+                        <div className="flex flex-wrap gap-2">
+                          {summary.entities.organizations.map((keyword: string, index: number) => (
+                            <span
+                              key={index}
+                              className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
+                            >
+                              {keyword}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
 
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Keywords</h3>
                     <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm">
                       <div className="flex flex-wrap gap-2">
-                        {summary.keywords.map((keyword, index) => (
+                        {summary.keywords.map((keyword: string, index: number) => (
                           <span
                             key={index}
                             className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium"
@@ -298,7 +288,6 @@ export default function RepoTreeFetcher() {
                 </div>
               </div>
 
-              {/* Summary Card */}
               <div className="relative p-0.5 rounded-3xl overflow-hidden bg-gradient-to-r from-white/40 to-white/20 shadow-xl">
                 <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-6 h-full">
                   <div className="mb-6">
